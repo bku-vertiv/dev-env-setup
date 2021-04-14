@@ -15,18 +15,23 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'bogado/file-line'
 Plug 'Raimondi/delimitMate'
 Plug 'majutsushi/tagbar'
-Plug 'kien/ctrlp.vim'
+"Plug 'kien/ctrlp.vim'  # replace by fzf
+" Plugin outside ~/.vim/plugged with post-update hook
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 " vim-snipmate requires snippets, vim-addon-mw-utils and tlib
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'honza/vim-snippets'
 Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
+"Plug 'garbas/vim-snipmate'
 
 " Colorscheme and syntax highlight
 Plug 'morhetz/gruvbox'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'junegunn/seoul256.vim'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Initialize plugin system
 call plug#end()
@@ -294,6 +299,11 @@ let g:airline#extensions#tabline#enabled = 1
 " |            bufexplorer         |
 " +--------------------------------+
 
+" +--------------------------------+
+" |            fzf                 |
+" +--------------------------------+
+set rtp+=~/.fzf      " set runtimepath of fzf installation path
+nmap <C-P> :FZF<CR>
 
 " +--------------------------------+
 " |             Tagbar             |
