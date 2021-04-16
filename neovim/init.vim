@@ -19,6 +19,7 @@ Plug 'majutsushi/tagbar'
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim' " For :Ag
 
 " vim-snipmate requires snippets, vim-addon-mw-utils and tlib
 Plug 'MarcWeber/vim-addon-mw-utils'
@@ -157,8 +158,6 @@ map <leader>bv <ESC>:BufExplorerVerticalSplit<CR>
 " Toggle TagBar
 "nnoremap <leader>tt :TagbarToggle<CR>
 nnoremap <F10> :TagbarToggle<CR>
-
-nmap <F12> <C-P>
 
 " Toggle on/off highlight Search
 nmap <leader>hl :set hls!<BAR>set hls?<CR>
@@ -303,7 +302,24 @@ let g:airline#extensions#tabline#enabled = 1
 " |            fzf                 |
 " +--------------------------------+
 set rtp+=~/.fzf      " set runtimepath of fzf installation path
-nmap <C-P> :FZF<CR>
+
+command! -bang ObmcFiles
+    \ call fzf#vim#files('~/projects/aci/obmc-repo',{'options': ['--info=inline', '--preview', '~/.vim/plugged/fzf.vim/bin/preview.sh {}']}, <bang>0)
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--info=inline']}), <bang>0)
+
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+nmap <C-P> :Files<CR>
+nmap <F12> :RG<CR>
 
 " +--------------------------------+
 " |             Tagbar             |
