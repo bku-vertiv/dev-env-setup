@@ -181,3 +181,8 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$PATH:$HOME/.config/coc/extensions/coc-clangd-data/install/11.0.0/clangd_11.0.0/bin/"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Gruvbox colorscheme
+export FZF_DEFAULT_OPTS='--height 70% --border --no-mouse --cycle --color=bg+:#3c3836,bg:#32302f,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934'
+
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
